@@ -32,4 +32,10 @@ public class BasePage {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.until(pageLoadCondition);
     }
+
+    public void scrollToElement(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        int y = element.getLocation().getY() - 200; // Exclude top menu overlaping
+        js.executeScript("window.scrollTo(0,0); window.scrollBy(0," + y + ")");
+    }
 }

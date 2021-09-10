@@ -18,4 +18,5 @@ public class TextboxPage extends BasePage {
 
     @FindBy(id = "name")
     public WebElement submittedName;
+
 }

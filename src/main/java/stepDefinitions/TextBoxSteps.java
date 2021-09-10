@@ -10,6 +10,9 @@ import lib.utils.Constants;
 import lib.webdriver.webdriverFactory;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import pages.BasePage;
 import pages.TextboxPage;
 
 import java.util.HashMap;
@@ -20,12 +23,14 @@ public class TextBoxSteps {
     Map<String, String> context;
     WebDriver driver;
     TextboxPage textboxPage;
+    Actions actions;
 
     @Before
     public void init() {
         driver = webdriverFactory.getDriver("demoqa", "pcBrowser");
         textboxPage = new TextboxPage(driver);
         context = new HashMap<>();
+        actions = new Actions(driver);
     }
 
     @After
@@ -49,6 +54,7 @@ public class TextBoxSteps {
 
     @When("I click on submit button")
     public void clickSubmitButton() {
+        textboxPage.scrollToElement(textboxPage.submitButton);
         textboxPage.submitButton.click();
     }
 
