@@ -2,6 +2,7 @@ package lib.webdriver;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import lib.utils.ConfigProperties;
+import lib.utils.Constants;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -13,11 +14,11 @@ import java.util.Map;
 
 public class webdriverFactory {
 
-    public static WebDriver getDriver(String url, String resolution) {
+    public static WebDriver getDriver(String resolution) {
 
         WebDriver driver = null;
         String browser = ConfigProperties.getBrowser();
-        String downloadFilepath = "\\src\\main\\java\\resources\\drivers";
+        String downloadFilepath = Constants.DOWNLOAD_PATH;
 
 
         if (browser.equalsIgnoreCase("chrome")) {
@@ -44,14 +45,6 @@ public class webdriverFactory {
         }
         assert driver != null;
         driver.manage().deleteAllCookies();
-        switch (url) {
-            case "demoqa":
-                driver.get(ConfigProperties.getURLDemoqa());
-                break;
-            default:
-                driver.get(url);
-                break;
-        }
         return driver;
     }
 }

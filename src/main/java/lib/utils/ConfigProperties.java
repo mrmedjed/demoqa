@@ -17,8 +17,8 @@ public class ConfigProperties {
         }
     }
 
-    public static String getURLDemoqa() {
-        return prop.getProperty("urlDemoqa");
+    public static String getBaseURL() {
+        return prop.getProperty("baseURL");
     }
 
     public static String getBrowser() {
