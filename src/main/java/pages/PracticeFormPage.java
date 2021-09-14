@@ -82,10 +82,10 @@ public class PracticeFormPage extends BasePage {
     @FindBy(id = "example-modal-sizes-title-lg")
     public WebElement submitModalTitle;
 
-    @FindBy(id = "//td[1]")
+    @FindBy(xpath = "//td[1]")
     public List<WebElement> submittedFieldLabels;
 
-    @FindBy(id = "//td[2]")
+    @FindBy(xpath = "//td[2]")
     public List<WebElement> submittedFieldValues;
 
     @FindBy(id = "closeLargeModal")

@@ -8,8 +8,10 @@ import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.testng.asserts.SoftAssert;
 import pages.PracticeFormPage;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +56,7 @@ public class PracticeFormSteps {
             case "mobile number":
                 practiceFormPage.waitForElementToBeVisible(practiceFormPage.phoneNumberField);
                 practiceFormPage.phoneNumberField.sendKeys(value);
-                context.put(FIRST_NAME, value);
+                context.put(MOBILE_NUMBER, value);
                 break;
             case "current address":
                 practiceFormPage.waitForElementToBeVisible(practiceFormPage.currentAddressField);
@@ -68,13 +70,13 @@ public class PracticeFormSteps {
     @When("I select gender: {string}")
     public void selectGender(String gender) {
         switch (gender) {
-            case "male":
+            case "Male":
                 practiceFormPage.genderRadioButtonMale.click();
                 context.put(GENDER, gender);
-            case "female":
+            case "Female":
                 practiceFormPage.genderRadioButtonFemale.click();
                 context.put(GENDER, gender);
-            case "other":
+            case "Other":
                 practiceFormPage.genderRadioButtonOther.click();
                 context.put(GENDER, gender);
             default:
@@ -99,32 +101,39 @@ public class PracticeFormSteps {
     @When("I enter following subjects:")
     public void enterSubjects(DataTable table) {
         List<String> listOfSubjects = table.asList();
-        String subjects = "";
+        StringBuilder subjects = new StringBuilder();
 
         for (String subject : listOfSubjects) {
             practiceFormPage.subjectsField.click();
             practiceFormPage.subjectsField.sendKeys(subject);
             practiceFormPage.subjectsField.sendKeys(Keys.RETURN);
-
+            subjects.append(String.format("%s, ", subject));
         }
+        context.put(SUBJECTS, subjects.substring(0, subjects.length() - 2));
     }
 
     @When("I select following hobbies:")
     public void selectHobbies(DataTable table) {
         List<String> listOfHobbies = table.asList();
-
         for (String hobbie : listOfHobbies) {
             if (hobbie.equals(practiceFormPage.hobbiesCheckboxMusic.getText())) {
                 practiceFormPage.hobbiesCheckboxMusic.click();
+                context.put(hobbie, HOBBIES);
             } else if (hobbie.equals(practiceFormPage.hobbiesCheckboxReading.getText())) {
                 practiceFormPage.hobbiesCheckboxReading.click();
-            } else practiceFormPage.hobbiesCheckboxSports.click();
+                context.put(hobbie, HOBBIES);
+            } else {
+                practiceFormPage.hobbiesCheckboxSports.click();
+                context.put(hobbie, HOBBIES);
+            }
         }
     }
 
     @When("I upload a picture")
     public void uploadPicture() {
         practiceFormPage.uploadPictureButton.sendKeys(getFilePathByFormat(".jpeg"));
+        context.put(PICTURE, getFilePathByFormat(".jpeg")
+                .substring(getFilePathByFormat(".jpeg").length() - 15));
     }
 
     @When("I select state {string} and city {string}")
@@ -152,19 +161,40 @@ public class PracticeFormSteps {
 
     @Then("correct values are displayed on the form modal")
     public void verifySubmittedValues() {
+        context.put(NAME, String.format("%s %s", context.get(FIRST_NAME), context.get(LAST_NAME)));
+        SoftAssert softAssert = new SoftAssert();
 
+        for (int i = 0; i < 10; i++) {
+            if (context.containsKey(practiceFormPage.submittedFieldLabels.get(i).getText().toLowerCase())) {
+                System.out.println(practiceFormPage.submittedFieldLabels.get(i).getText());
+                softAssert.assertEquals(practiceFormPage.submittedFieldValues.get(i).getText(), context.get
+                        (practiceFormPage.submittedFieldLabels.get(i).getText().toLowerCase()));
+            }
+        }
+        softAssert.assertAll();
     }
 
     @When("I populate all mandatory fields")
-    public void populateMandatoryFields() throws InterruptedException {
-        populateTextField("fadasdasd", "first name");
-        TimeUnit.MILLISECONDS.sleep(500);
-        populateTextField("asdfaffgadad", "last name");
-        TimeUnit.MILLISECONDS.sleep(500);
-        selectGender("female");
-        TimeUnit.MILLISECONDS.sleep(500);
-        populateTextField("1234421123", "mobile number");
-        TimeUnit.MILLISECONDS.sleep(500);
+    public void populateMandatoryFields(DataTable table) throws InterruptedException {
+
+        List<Map<String, String>> rows = table.asMaps(String.class, String.class);
+
+        if (!context.containsKey(FIRST_NAME)) {
+            populateTextField("John", "first name");
+            TimeUnit.MILLISECONDS.sleep(500);
+        }
+        if (!context.containsKey(LAST_NAME)) {
+            populateTextField("Doe", "last name");
+            TimeUnit.MILLISECONDS.sleep(500);
+        }
+        if (!context.containsKey(GENDER)) {
+            selectGender("Other");
+            TimeUnit.MILLISECONDS.sleep(500);
+        }
+        if (!context.containsKey(MOBILE_NUMBER)) {
+            populateTextField("2112332212", "mobile number");
+            TimeUnit.MILLISECONDS.sleep(500);
+        }
     }
 
     @When("I populate all mandatory fields except {string}")
@@ -172,12 +202,12 @@ public class PracticeFormSteps {
         switch (field) {
             case "first name":
                 populateTextField("asdfaffgadad", "last name");
-                selectGender("male");
+                selectGender("Male");
                 populateTextField("1234421123", "mobile number");
                 break;
             case "last name":
                 populateTextField("fadasdasd", "first name");
-                selectGender("male");
+                selectGender("Male");
                 populateTextField("1234421123", "mobile number");
                 break;
             case "gender":
@@ -188,7 +218,7 @@ public class PracticeFormSteps {
             case "mobile number":
                 populateTextField("fadasdasd", "first name");
                 populateTextField("asdfaffgadad", "last name");
-                selectGender("male");
+                selectGender("Male");
                 break;
             default:
         }
@@ -198,6 +228,6 @@ public class PracticeFormSteps {
     public void closeModal() {
         practiceFormPage.scrollToElement(practiceFormPage.closeModalButton);
         practiceFormPage.closeModalButton.click();
-        System.out.println(practiceFormPage.genderRadioButtonMale.getCssValue("background-color"));
+        context.clear();
     }
 }

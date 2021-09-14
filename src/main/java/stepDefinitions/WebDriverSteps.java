@@ -31,7 +31,7 @@ public class WebDriverSteps {
 
     @After
     public void quit() throws InterruptedException {
-        TimeUnit.MILLISECONDS.sleep(5000);
+        TimeUnit.MILLISECONDS.sleep(2000);
         driver.quit();
     }
 
@@ -50,7 +50,6 @@ public class WebDriverSteps {
                 break;
             default:
         }
-
     }
 
     public static WebDriver getDriver() {
@@ -61,6 +60,4 @@ public class WebDriverSteps {
         JavascriptExecutor executor = (JavascriptExecutor)driver;
         executor.executeScript("arguments[0].click();", element);
     }
-
-
 }
