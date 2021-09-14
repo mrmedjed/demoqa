@@ -7,6 +7,7 @@ import io.cucumber.java.BeforeStep;
 import io.cucumber.java.en.Given;
 import lib.utils.ConfigProperties;
 import lib.webdriver.webdriverFactory;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -27,11 +28,12 @@ public class WebDriverSteps {
     @BeforeStep
     public void waitBeforeStep() throws InterruptedException {
         TimeUnit.MILLISECONDS.sleep(500);
+        closeGoogleAddIfPresent();
     }
 
     @After
     public void quit() throws InterruptedException {
-        TimeUnit.MILLISECONDS.sleep(2000);
+        TimeUnit.MILLISECONDS.sleep(1000);
         driver.quit();
     }
 
@@ -48,6 +50,10 @@ public class WebDriverSteps {
             case "Practice Form":
                 driver.get(ConfigProperties.getBaseURL() + PRACTICE_FORM_PAGE);
                 break;
+            case "Book Store":
+                driver.get(ConfigProperties.getBaseURL() + BOOK_STORE_PAGE);
+                BookStoreSteps.getInitialBooksList();
+                break;
             default:
         }
     }
@@ -59,5 +65,14 @@ public class WebDriverSteps {
     public static void clickJS(WebElement element) {
         JavascriptExecutor executor = (JavascriptExecutor)driver;
         executor.executeScript("arguments[0].click();", element);
+    }
+
+    public void closeGoogleAddIfPresent() {
+        try {
+            if (driver.findElement(By.id("close-fixedban")).isDisplayed()) {
+                driver.findElement(By.id("close-fixedban")).click();
+            }
+        } catch (Exception ignored) {
+        }
     }
 }

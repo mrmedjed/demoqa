@@ -1,16 +1,26 @@
 package lib.webdriver;
 
+import io.github.bonigarcia.wdm.FirefoxDriverManager;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import lib.utils.ConfigProperties;
 import lib.utils.Constants;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxDriverLogLevel;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.safari.SafariOptions;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class webdriverFactory {
 
@@ -43,6 +53,39 @@ public class webdriverFactory {
             }
             driver = new ChromeDriver(options);
         }
+        if (browser.equalsIgnoreCase("safari")) {
+            SafariOptions options = new SafariOptions();
+            driver = new SafariDriver();
+            driver.manage().window().maximize();
+        }
+        if (browser.equalsIgnoreCase("firefox")) {
+            String firefoxProfile = "default";
+            System.setProperty("webdriver.firefox.profile", firefoxProfile);
+
+            FirefoxProfile profile = new ProfilesIni().getProfile(firefoxProfile);
+
+            String version = System.getProperty("webdriver.firefox.driver.version");
+            if (StringUtils.isNotBlank(version)) {
+                FirefoxDriverManager.firefoxdriver().version(version).setup();
+            } else {
+                FirefoxDriverManager.firefoxdriver().setup();
+            }
+
+            FirefoxOptions firefoxOptions = new FirefoxOptions();
+            firefoxOptions.setLogLevel(FirefoxDriverLogLevel.FATAL);
+            firefoxOptions.setCapability(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE, true);
+            firefoxOptions.setAcceptInsecureCerts(true);
+            firefoxOptions.setProfile(profile);
+            String ffBinaryPath = System.getProperty("webdriver.firefox.bin");
+            if (StringUtils.isNotBlank(ffBinaryPath)) {
+                firefoxOptions.setBinary(ffBinaryPath);
+            }
+            driver = new FirefoxDriver(firefoxOptions);
+            driver.manage().deleteAllCookies();
+            driver.manage().window().maximize();
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        }
+
         assert driver != null;
         driver.manage().deleteAllCookies();
         return driver;

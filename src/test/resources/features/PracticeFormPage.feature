@@ -1,8 +1,9 @@
-Feature: Verify practice form
+@bla
+Feature: Verify practice form page features
   
   Background:
     Given I am on "Practice Form" page
-    @lune
+    @lunee
     Scenario: Verify all fields can be populated and submitted
       When I enter "medjed" in "first name" field
       And I enter "medjed" in "last name" field
@@ -23,13 +24,15 @@ Feature: Verify practice form
       Then form is submitted successfully
       And correct values are displayed on the form modal
 
-    @lune
+    @lunee
     Scenario: Verify form can be submitted upon populating mandatory fields
-      When I populate all mandatory fields
+      When I populate all missing mandatory fields
+      |firstName|lastName|gender|mobile    |
+      |Lune     |Medjed  |Other |1233212332|
       And I submit the form
       Then form is submitted successfully
       And correct values are displayed on the form modal
-    @lune
+    @lunee
     Scenario Outline: Verify form can't be submitted without mandatory values
       When I populate all mandatory fields except "<field>"
       And I submit the form
@@ -41,14 +44,18 @@ Feature: Verify practice form
           |gender      |
           |mobile phone|
 
-    @lunee, @bug
+    @lunee @bug
     Scenario: Verify form can be submitted twice in the same session
-      When I populate all mandatory fields
+      When I populate all missing mandatory fields
+        |firstName|lastName|gender|mobile    |
+        |Lune     |Medjed  |Other |1233212332|
       And I submit the form
       Then form is submitted successfully
       And correct values are displayed on the form modal
       When I close the submission modal
-      And I populate all mandatory fields
+      And I populate all missing mandatory fields
+        |firstName|lastName|gender|mobile    |
+        |Lune     |Medjed  |Other |1233212332|
       And I submit the form
       Then form is submitted successfully
       And correct values are displayed on the form modal

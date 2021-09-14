@@ -1,4 +1,4 @@
-Feature: Upload/Download verification
+Feature: Verify upload/download page features
 
   Background:
     Given I am on "Upload/Download" page

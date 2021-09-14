@@ -34,7 +34,7 @@ public class BasePage {
 
     public void scrollToElement(WebElement element) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        int y = element.getLocation().getY() - 200; // Exclude top menu overlaping
+        int y = element.getLocation().getY() - 150; // Exclude top menu overlaping
         js.executeScript("window.scrollTo(0,0); window.scrollBy(0," + y + ")");
     }
 }

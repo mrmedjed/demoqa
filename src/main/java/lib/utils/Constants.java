@@ -5,17 +5,14 @@ import java.util.List;
 
 public class Constants {
 
+    /**
+     * Upload/download constants
+     */
     public static final String DOWNLOAD_PATH = System.getProperty("user.dir") + "/src/main/java/resources/downloadedFiles";
     public static final String UPLOAD_PATH = System.getProperty("user.dir") + "/src/main/java/resources/filesForUpload";
     public static final String FILE_NAME_JPEG = "sampleFile.jpeg";
-    public static final String FILE_NAME_PDF = "sampleFile.jpeg";
-    public static final String FILE_NAME_DOCX = "sampleFile.jpeg";
-    public static final String FILE_NAME_DOC = "sampleFile.jpeg";
-    public static final String FILE_NAME_TXT = "sampleFile.jpeg";
-    public static final String FILE_NAME_XLSX = "sampleFile.jpeg";
-    public static final String FILE_NAME_XLS = "sampleFile.jpeg";
     /**
-     * Student practice form labels
+     * Student practice form constants
      */
     public static final String NAME = "student name";
     public static final String FIRST_NAME = "firstName";
@@ -35,4 +32,12 @@ public class Constants {
     public static final String TEXT_BOX_PAGE = "text-box";
     public static final String UPLOAD_DOWNLOAD_PAGE = "upload-download";
     public static final String PRACTICE_FORM_PAGE = "automation-practice-form";
+    public static final String BOOK_STORE_PAGE = "books";
+    /**
+     * Book store constants
+     */
+    public static final String SEARCH_VALUE = "searchValue";
+    public static final String BOOKS = "books";
+    public static final String AUTHORS = "authors";
+    public static final String PUBLISHERS = "publishers";
 }

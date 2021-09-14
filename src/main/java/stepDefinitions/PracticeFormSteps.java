@@ -11,7 +11,6 @@ import org.openqa.selenium.Keys;
 import org.testng.asserts.SoftAssert;
 import pages.PracticeFormPage;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,8 +131,7 @@ public class PracticeFormSteps {
     @When("I upload a picture")
     public void uploadPicture() {
         practiceFormPage.uploadPictureButton.sendKeys(getFilePathByFormat(".jpeg"));
-        context.put(PICTURE, getFilePathByFormat(".jpeg")
-                .substring(getFilePathByFormat(".jpeg").length() - 15));
+        context.put(PICTURE, FILE_NAME_JPEG);
     }
 
     @When("I select state {string} and city {string}")
@@ -166,33 +164,32 @@ public class PracticeFormSteps {
 
         for (int i = 0; i < 10; i++) {
             if (context.containsKey(practiceFormPage.submittedFieldLabels.get(i).getText().toLowerCase())) {
-                System.out.println(practiceFormPage.submittedFieldLabels.get(i).getText());
-                softAssert.assertEquals(practiceFormPage.submittedFieldValues.get(i).getText(), context.get
-                        (practiceFormPage.submittedFieldLabels.get(i).getText().toLowerCase()));
+                softAssert.assertEquals(practiceFormPage.submittedFieldValues.get(i).getText()
+                        , context.get(practiceFormPage.submittedFieldLabels.get(i).getText().toLowerCase()));
             }
         }
         softAssert.assertAll();
     }
 
-    @When("I populate all mandatory fields")
+    @When("I populate all missing mandatory fields")
     public void populateMandatoryFields(DataTable table) throws InterruptedException {
 
         List<Map<String, String>> rows = table.asMaps(String.class, String.class);
 
         if (!context.containsKey(FIRST_NAME)) {
-            populateTextField("John", "first name");
+            populateTextField(rows.get(0).get(FIRST_NAME), "first name");
             TimeUnit.MILLISECONDS.sleep(500);
         }
         if (!context.containsKey(LAST_NAME)) {
-            populateTextField("Doe", "last name");
+            populateTextField(rows.get(0).get(LAST_NAME), "last name");
             TimeUnit.MILLISECONDS.sleep(500);
         }
         if (!context.containsKey(GENDER)) {
-            selectGender("Other");
+            selectGender(rows.get(0).get(GENDER));
             TimeUnit.MILLISECONDS.sleep(500);
         }
         if (!context.containsKey(MOBILE_NUMBER)) {
-            populateTextField("2112332212", "mobile number");
+            populateTextField(rows.get(0).get(MOBILE_NUMBER), "mobile number");
             TimeUnit.MILLISECONDS.sleep(500);
         }
     }
@@ -201,7 +198,7 @@ public class PracticeFormSteps {
     public void populateMandatoryFieldsExcept(String field) {
         switch (field) {
             case "first name":
-                populateTextField("asdfaffgadad", "last name");
+                populateTextField("Smith", "last name");
                 selectGender("Male");
                 populateTextField("1234421123", "mobile number");
                 break;
