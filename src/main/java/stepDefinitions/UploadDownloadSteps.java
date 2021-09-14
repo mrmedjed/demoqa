@@ -30,7 +30,7 @@ public class UploadDownloadSteps {
 
         @Given("I upload a file type {string}")
         public void uploadFile(String fileType) {
-            uploadDownloadPage.uploadFile.sendKeys(uploadDownloadPage.getFilePathByFormat(fileType));
+            uploadDownloadPage.uploadFile.sendKeys(UploadDownloadPage.getFilePathByFormat(fileType));
         }
 
         @Then("appropriate message is displayed")

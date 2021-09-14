@@ -23,7 +23,7 @@ public class UploadDownloadPage extends BasePage{
     @FindBy(id = "uploadedFilePath")
     public WebElement uploadedFilePath;
 
-    public String getFilePathByFormat(String fileExtension) {
+    public static String getFilePathByFormat(String fileExtension) {
         File file = new File(UPLOAD_PATH);
         File[] listOfFiles = file.listFiles();
         return Arrays.stream(listOfFiles).filter(f -> f.getName().contains(fileExtension))

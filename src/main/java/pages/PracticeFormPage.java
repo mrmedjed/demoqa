@@ -25,13 +25,13 @@ public class PracticeFormPage extends BasePage {
     @FindBy(id = "userEmail")
     public WebElement emailField;
 
-    @FindBy(id = "gender-radio-1")
+    @FindBy(xpath = "//input[@id = 'gender-radio-1']/following-sibling::label")
     public WebElement genderRadioButtonMale;
 
-    @FindBy(id = "gender-radio-2")
+    @FindBy(xpath = "//input[@id = 'gender-radio-2']/following-sibling::label")
     public WebElement genderRadioButtonFemale;
 
-    @FindBy(id = "gender-radio-3")
+    @FindBy(xpath = "//input[@id = 'gender-radio-3']/following-sibling::label")
     public WebElement genderRadioButtonOther;
 
     @FindBy(id = "userNumber")
@@ -40,7 +40,7 @@ public class PracticeFormPage extends BasePage {
     @FindBy(id = "dateOfBirthInput")
     public WebElement dateOfBirthField;
 
-    @FindBy(id = "subjectsContainer")
+    @FindBy(id = "subjectsInput")
     public WebElement subjectsField;
 
     @FindBy(xpath = "//div[contains(@class, 'multi-value__label')]")
@@ -52,13 +52,13 @@ public class PracticeFormPage extends BasePage {
     @FindBy(xpath = "//div[contains(@class, 'subjects-auto-complete__clear-indicator')]")
     public WebElement autoCompleteRemoveAll;
 
-    @FindBy(id = "hobbies-checkbox-1")
+    @FindBy(xpath = "//input[@id='hobbies-checkbox-1']/following-sibling::label")
     public WebElement hobbiesCheckboxSports;
 
-    @FindBy(id = "hobbies-checkbox-2")
+    @FindBy(xpath = "//input[@id='hobbies-checkbox-2']/following-sibling::label")
     public WebElement hobbiesCheckboxReading;
 
-    @FindBy(id = "hobbies-checkbox-3")
+    @FindBy(xpath = "//input[@id='hobbies-checkbox-3']/following-sibling::label")
     public WebElement hobbiesCheckboxMusic;
 
     @FindBy(id = "uploadPicture")
@@ -69,6 +69,9 @@ public class PracticeFormPage extends BasePage {
 
     @FindBy(id = "state")
     public WebElement stateDropdown;
+
+    @FindBy(xpath = "//div[contains(@class, 'menu')]")
+    public WebElement stateDropdownnn;
 
     @FindBy(id = "city")
     public WebElement cityDropdown;

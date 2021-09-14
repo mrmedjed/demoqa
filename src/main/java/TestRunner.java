@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = "src/test/resources/features",
         monochrome = true,
-        tags = "@lune"
+        tags = "@lunee"
 )
 public class TestRunner {
 
