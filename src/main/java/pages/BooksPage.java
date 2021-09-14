@@ -26,6 +26,18 @@ public class BooksPage extends BasePage{
     @FindBy(xpath = "//div[contains(@class, 'rt-td')]/parent::div[not(contains(@class, '-padRow'))]//div[normalize-space(text())][2]")
     public List<WebElement> listOfPublishersForDisplayedBooks;
 
+    @FindBy(xpath = "//div[@id = 'title-wrapper']")
+    public WebElement bookTitle;
+
+    @FindBy(xpath = "//div[@id = 'author-wrapper']")
+    public WebElement bookAuthor;
+
+    @FindBy(xpath = "//div[@id = 'publisher-wrapper']")
+    public WebElement bookPublisher;
+
+    @FindBy(xpath = "//div[@id = 'ISBN-wrapper']")
+    public WebElement isbn;
+
     public List<String> convert(List<WebElement> listOfElements) {
         List<String> stringList = new ArrayList<>();
         for (WebElement element : listOfElements) {
@@ -33,7 +45,4 @@ public class BooksPage extends BasePage{
         }
         return stringList;
     }
-
-
-
 }

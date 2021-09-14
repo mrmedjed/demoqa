@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxDriverLogLevel;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -29,8 +30,9 @@ public class webdriverFactory {
         WebDriver driver = null;
         String browser = ConfigProperties.getBrowser();
         String downloadFilepath = Constants.DOWNLOAD_PATH;
-
-
+        /**
+         * Setup for chrome driver
+         */
         if (browser.equalsIgnoreCase("chrome")) {
             WebDriverManager.chromedriver().setup();
             ChromeOptions options = new ChromeOptions();
@@ -52,12 +54,29 @@ public class webdriverFactory {
                 options.addArguments("--start-maximized");
             }
             driver = new ChromeDriver(options);
+            driver.manage().deleteAllCookies();
         }
+        /**
+         * Setup for safari driver
+         */
         if (browser.equalsIgnoreCase("safari")) {
             SafariOptions options = new SafariOptions();
             driver = new SafariDriver();
             driver.manage().window().maximize();
+            driver.manage().deleteAllCookies();
         }
+        /**
+         * Setup for edge driver
+         */
+        if (browser.equalsIgnoreCase("edge")) {
+            System.setProperty("webdriver.edge.driver",System.getProperty("user.dir") + "/src/main/java/resources/drivers/msedgedriver.exe");
+            driver = new EdgeDriver();
+            driver.manage().window().maximize();
+            driver.manage().deleteAllCookies();
+        }
+        /**
+         * Setup for firefox driver
+         */
         if (browser.equalsIgnoreCase("firefox")) {
             String firefoxProfile = "default";
             System.setProperty("webdriver.firefox.profile", firefoxProfile);
@@ -85,9 +104,7 @@ public class webdriverFactory {
             driver.manage().window().maximize();
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         }
-
         assert driver != null;
-        driver.manage().deleteAllCookies();
         return driver;
     }
 }

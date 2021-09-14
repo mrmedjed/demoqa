@@ -114,18 +114,19 @@ public class PracticeFormSteps {
     @When("I select following hobbies:")
     public void selectHobbies(DataTable table) {
         List<String> listOfHobbies = table.asList();
+        StringBuilder hobbies = new StringBuilder();
+
         for (String hobbie : listOfHobbies) {
+            hobbies.append(String.format("%s, ", hobbie));
             if (hobbie.equals(practiceFormPage.hobbiesCheckboxMusic.getText())) {
                 practiceFormPage.hobbiesCheckboxMusic.click();
-                context.put(hobbie, HOBBIES);
             } else if (hobbie.equals(practiceFormPage.hobbiesCheckboxReading.getText())) {
                 practiceFormPage.hobbiesCheckboxReading.click();
-                context.put(hobbie, HOBBIES);
             } else {
                 practiceFormPage.hobbiesCheckboxSports.click();
-                context.put(hobbie, HOBBIES);
             }
         }
+        context.put(HOBBIES, hobbies.substring(0, hobbies.length() - 2));
     }
 
     @When("I upload a picture")
@@ -154,7 +155,6 @@ public class PracticeFormSteps {
     @Then("form is not submitted")
     public void notFormSubmitted() {
         Assert.assertTrue(practiceFormPage.submittedFieldLabels.isEmpty());
-
     }
 
     @Then("correct values are displayed on the form modal")
@@ -166,7 +166,7 @@ public class PracticeFormSteps {
             if (context.containsKey(practiceFormPage.submittedFieldLabels.get(i).getText().toLowerCase())) {
                 softAssert.assertEquals(practiceFormPage.submittedFieldValues.get(i).getText()
                         , context.get(practiceFormPage.submittedFieldLabels.get(i).getText().toLowerCase()));
-            }
+            } else softAssert.assertEquals(practiceFormPage.submittedFieldValues.get(i).getText(), "");
         }
         softAssert.assertAll();
     }
@@ -203,18 +203,18 @@ public class PracticeFormSteps {
                 populateTextField("1234421123", "mobile number");
                 break;
             case "last name":
-                populateTextField("fadasdasd", "first name");
+                populateTextField("Carlos", "first name");
                 selectGender("Male");
                 populateTextField("1234421123", "mobile number");
                 break;
             case "gender":
-                populateTextField("fadasdasd", "first name");
-                populateTextField("asdfaffgadad", "last name");
+                populateTextField("Sheldon", "first name");
+                populateTextField("Cooper", "last name");
                 populateTextField("1234421123", "mobile number");
                 break;
             case "mobile number":
-                populateTextField("fadasdasd", "first name");
-                populateTextField("asdfaffgadad", "last name");
+                populateTextField("Lucifer", "first name");
+                populateTextField("Morningstar", "last name");
                 selectGender("Male");
                 break;
             default:

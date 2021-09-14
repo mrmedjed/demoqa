@@ -6,6 +6,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.testng.asserts.SoftAssert;
 import pages.BooksPage;
 
 import java.util.*;
@@ -21,11 +22,11 @@ public class BookStoreSteps {
     public void init() {
         booksPage = new BooksPage(WebDriverSteps.getDriver());
     }
+
     @After
     public void quit() {
         context.clear();
     }
-
 
     @When("I enter {string} into search box")
     public void method(String search) {
@@ -98,4 +99,26 @@ public class BookStoreSteps {
         }
     }
 
+    @When("I click on random book")
+    public void clickOnRandomBook() {
+        int random = (int) (Math.random() * ((booksPage.listOfDisplayedBooks.size() - 1))) + 1;
+
+        context.put(BOOK_TITLE ,booksPage.listOfDisplayedBooks.get(random).getText());
+        context.put(AUTHOR_NAME ,booksPage.listOfAuthorsForDisplayedBooks.get(random).getText());
+        context.put(PUBLISHER_NAME ,booksPage.listOfPublishersForDisplayedBooks.get(random).getText());
+
+        booksPage.scrollToElement(booksPage.listOfDisplayedBooks.get(random));
+        booksPage.listOfDisplayedBooks.get(random).click();
+    }
+
+    @Then("appropriate book page is opened")
+    public void appropriateBookPageIsOpened() {
+        SoftAssert soft = new SoftAssert();
+        soft.assertTrue(booksPage.bookTitle.getText().contains(context.get(BOOK_TITLE)));
+        soft.assertTrue(booksPage.bookAuthor.getText().contains(context.get(AUTHOR_NAME)));
+        soft.assertTrue(booksPage.bookPublisher.getText().contains(context.get(PUBLISHER_NAME)));
+        soft.assertTrue(booksPage.isbn.getText().contains(WebDriverSteps.getDriver().getCurrentUrl().split("=")[1]));
+
+        soft.assertAll();
+    }
 }

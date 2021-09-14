@@ -25,3 +25,8 @@ Feature: Verify Book Store page features
         |Title    |
         |Author   |
         |Publisher|
+
+
+    Scenario: Verify book content
+      When I click on random book
+      Then appropriate book page is opened

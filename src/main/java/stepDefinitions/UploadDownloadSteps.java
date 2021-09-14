@@ -22,11 +22,11 @@ public class UploadDownloadSteps {
             uploadDownloadPage = new UploadDownloadPage(WebDriverSteps.getDriver());
             context = new HashMap<>();
         }
+
         @After
         public void quit() {
             context.clear();
         }
-
 
         @Given("I upload a file type {string}")
         public void uploadFile(String fileType) {
@@ -50,6 +50,4 @@ public class UploadDownloadSteps {
     public void verifyFileIsDownloaded() {
             Assert.assertTrue(uploadDownloadPage.isFilePresent(FILE_NAME_JPEG));
         }
-
-
     }

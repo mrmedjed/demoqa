@@ -1,10 +1,6 @@
 package lib.utils;
 
-import java.io.File;
-import java.util.List;
-
 public class Constants {
-
     /**
      * Upload/download constants
      */
@@ -22,7 +18,7 @@ public class Constants {
     public static final String CURRENT_ADDRESS = "address";
     public static final String PERMANENT_ADDRES = "permanentAddress";
     public static final String GENDER = "gender";
-    public static final String DATE_OF_BIRTH = "dateOfBirth";
+    public static final String DATE_OF_BIRTH = "date of birth";
     public static final String SUBJECTS = "subjects";
     public static final String HOBBIES = "hobbies";
     public static final String PICTURE = "picture";
@@ -40,4 +36,7 @@ public class Constants {
     public static final String BOOKS = "books";
     public static final String AUTHORS = "authors";
     public static final String PUBLISHERS = "publishers";
+    public static final String BOOK_TITLE = "book";
+    public static final String AUTHOR_NAME = "author";
+    public static final String PUBLISHER_NAME = "publisher";
 }

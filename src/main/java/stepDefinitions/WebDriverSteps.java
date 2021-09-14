@@ -25,18 +25,24 @@ public class WebDriverSteps {
         driver = webdriverFactory.getDriver("pcBrowser");
     }
 
+    /**
+     * Added short sleep between each step because tests are running too fast.
+     * Feel free to remove the sleep part if you want faster run.
+     */
     @BeforeStep
     public void waitBeforeStep() throws InterruptedException {
         TimeUnit.MILLISECONDS.sleep(500);
         closeGoogleAddIfPresent();
     }
-
+    /**
+     * Also added short sleep after each scenario for easier debugging.
+     * Feel free to remove the sleep part if you want faster run.
+     */
     @After
     public void quit() throws InterruptedException {
         TimeUnit.MILLISECONDS.sleep(1000);
         driver.quit();
     }
-
 
     @Given("I am on {string} page")
     public void navigateToPage(String page) {

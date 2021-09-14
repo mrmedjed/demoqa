@@ -70,9 +70,6 @@ public class PracticeFormPage extends BasePage {
     @FindBy(id = "state")
     public WebElement stateDropdown;
 
-    @FindBy(xpath = "//div[contains(@class, 'menu')]")
-    public WebElement stateDropdownnn;
-
     @FindBy(id = "city")
     public WebElement cityDropdown;
 

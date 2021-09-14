@@ -27,7 +27,6 @@ public class TextBoxSteps {
         context.clear();
     }
 
-
     @Given("I enter {string} into {string} field")
     public void openTextBoxUrl(String name, String field) {
         switch (field) {
